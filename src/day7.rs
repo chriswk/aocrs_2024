@@ -61,6 +61,29 @@ fn hold_true_part_2(target: u64, so_far: u64, rest: &[u64]) -> bool {
         || hold_true_part_2(target, concat_op, &rest[1..])
 }
 
+fn hold_true_part_2_string(target: u64, so_far: u64, rest: &[u64]) -> bool {
+    if so_far > target {
+        return false;
+    }
+    if rest.is_empty() {
+        return so_far == target;
+    }
+    let mul = if so_far == 0 { 1 } else { so_far } * rest[0];
+    let add = so_far + rest[0];
+    let concat_op = if so_far == 0 {
+        rest[0]
+    } else {
+        string_concat(so_far, rest[0])
+    };
+    hold_true_part_2_string(target, add, &rest[1..])
+        || hold_true_part_2_string(target, mul, &rest[1..])
+        || hold_true_part_2_string(target, concat_op, &rest[1..])
+}
+
+fn string_concat(a: u64, b: u64) -> u64 {
+    format!("{}{}", a, b).parse().unwrap()
+}
+
 #[aoc(day7, part1)]
 fn part1(input: &Input) -> u64 {
     input
@@ -74,6 +97,14 @@ fn part2(input: &Input) -> u64 {
     input
         .iter()
         .filter(|(sum, values)| hold_true_part_2(*sum, 0, values))
+        .fold(0, |acc, (sum, _)| acc + sum)
+}
+
+#[aoc(day7, part2, STRING_CONCAT)]
+fn part2_string_concat(input: &Input) -> u64 {
+    input
+        .iter()
+        .filter(|(sum, values)| hold_true_part_2_string(*sum, 0, values))
         .fold(0, |acc, (sum, _)| acc + sum)
 }
 
