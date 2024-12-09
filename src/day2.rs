@@ -20,7 +20,7 @@ fn safe(report: &Report, can_remove: bool) -> bool {
         let mut diff = report[i + 1] - report[i];
         let diff_sign = diff.signum();
         diff = diff.abs();
-        if line_direction == 0 || diff_sign != line_direction || diff > 3 || diff < 1 {
+        if line_direction == 0 || diff_sign != line_direction || !(1..=3).contains(&diff) {
             if can_remove {
                 return report
                     .iter()

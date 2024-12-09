@@ -42,7 +42,7 @@ impl Coord {
     }
 
     fn step_return(&mut self, other: &Self) -> Self {
-        let prev = self.clone();
+        let prev = *self;
         *self += *other;
         prev
     }

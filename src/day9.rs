@@ -1,4 +1,4 @@
-use aoc_runner_derive::{aoc, aoc_generator};
+use aoc_runner_derive::aoc;
 
 fn solve(mut files: Vec<(usize, i32)>) -> usize {
     let mut i = files.len() - 1;
