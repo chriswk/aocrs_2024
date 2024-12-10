@@ -68,7 +68,7 @@ impl Point {
     }
 
     fn antinode(&self, other: &Self) -> Point {
-        let twice_distance = self.delta(&other) * 2;
+        let twice_distance = self.delta(other) * 2;
         self + twice_distance
     }
 }
