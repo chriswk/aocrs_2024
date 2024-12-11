@@ -35,14 +35,14 @@ fn valid_neighbours(guide_map: &TopoMap, point: &Point) -> Vec<Point> {
         .collect()
 }
 
-fn dfs(guide: &TopoMap, pos: &Point) -> usize {
+fn rating(guide: &TopoMap, pos: &Point) -> usize {
     if let Some(height) = guide.get(pos) {
         if height == &9 {
             return 1;
         }
         valid_neighbours(guide, pos)
             .iter()
-            .map(|n| dfs(guide, n))
+            .map(|n| rating(guide, n))
             .sum()
     } else {
         0
@@ -54,47 +54,33 @@ fn possible_route(
     pos: &Point,
     peaks_seen_so_far: &mut HashSet<Point>,
 ) -> HashSet<Point> {
-    if let Some(height) = guide.get(pos) {
-        if height == &9 {
-            peaks_seen_so_far.insert(*pos);
-            return peaks_seen_so_far.clone();
-        }
-        valid_neighbours(guide, pos)
-            .iter()
-            .flat_map(|n| possible_route(guide, n, peaks_seen_so_far))
-            .collect()
-    } else {
-        peaks_seen_so_far.clone()
+    let height = guide.get(pos).unwrap();
+    if height == &9 {
+        peaks_seen_so_far.insert(*pos);
+        return peaks_seen_so_far.clone();
     }
-}
-
-fn rating(guide_map: &TopoMap, trail_head: &Point) -> usize {
-    dfs(guide_map, trail_head)
+    valid_neighbours(guide, pos)
+        .iter()
+        .flat_map(|n| possible_route(guide, n, peaks_seen_so_far))
+        .collect()
 }
 
 #[aoc(day10, part1)]
 fn part1(input: &TopoMap) -> usize {
-    let trailheads: Vec<Point> = input
+    input
         .iter()
         .filter(|(_p, height)| *height == &0)
-        .map(|(p, _)| p)
-        .cloned()
-        .collect();
-    trailheads
-        .into_iter()
-        .map(|p| possible_route(input, &p, &mut HashSet::default()).len())
+        .map(|(p, _)| possible_route(input, p, &mut HashSet::default()).len())
         .sum()
 }
 
 #[aoc(day10, part2)]
 fn part2(input: &TopoMap) -> usize {
-    let trailheads: Vec<Point> = input
+    input
         .iter()
         .filter(|(_p, height)| *height == &0)
-        .map(|(p, _)| p)
-        .cloned()
-        .collect();
-    trailheads.iter().map(|p| rating(input, p)).sum()
+        .map(|(p, _)| rating(input, p))
+        .sum()
 }
 
 #[cfg(test)]

@@ -65,7 +65,7 @@ fn part2(input: &Input) -> usize {
     let all_harmonics: Set<Point> = input
         .0
         .iter()
-        .flat_map(|(freq, points)| {
+        .flat_map(|(_freq, points)| {
             let antinodes: Set<Point> = points
                 .iter()
                 .flat_map(|p| {
