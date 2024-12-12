@@ -1,12 +1,19 @@
 use std::{
+    fmt::Display,
     iter::successors,
     ops::{Add, Mul, Sub},
 };
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+#[derive(Debug, Clone, Copy, PartialEq, PartialOrd, Ord, Eq, Hash)]
 pub struct Point {
     pub x: isize,
     pub y: isize,
+}
+
+impl Display for Point {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "({}, {})", self.x, self.y)
+    }
 }
 
 impl Add<Point> for &Point {

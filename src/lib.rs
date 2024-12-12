@@ -1,3 +1,4 @@
+mod day12;
 mod day1;
 mod day10;
 mod day11;
