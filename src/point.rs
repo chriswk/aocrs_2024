@@ -27,6 +27,16 @@ impl Add<Point> for &Point {
     }
 }
 
+impl Add<&Point> for Point {
+    type Output = Point;
+    fn add(self, rhs: &Point) -> Self::Output {
+        Point {
+            x: self.x + rhs.x,
+            y: self.y + rhs.y,
+        }
+    }
+}
+
 impl Sub<&Point> for &Point {
     type Output = Point;
 
@@ -85,5 +95,12 @@ impl Point {
             Point::new(self.x - 1, self.y),
             Point::new(self.x + 1, self.y),
         ]
+    }
+
+    pub fn bounded(&self, width: isize, height: isize) -> Self {
+        Point {
+            x: self.x.rem_euclid(width),
+            y: self.y.rem_euclid(height),
+        }
     }
 }
