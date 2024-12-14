@@ -24,7 +24,8 @@ pub fn find_target((a_button, b_button, target): &Machine) -> Option<usize> {
     let b = (target.y * a_button.x - target.x * a_button.y)
         / (b_button.y * a_button.x - b_button.x * a_button.y);
     let a = (target.x - b * b_button.x) / a_button.x;
-    if (a_button.x * a + b_button.x * b) == target.x && a_button.y * a + b_button.y * b == target.y
+    if (a_button.x * a + b_button.x * b) == target.x
+        && (a_button.y * a + b_button.y * b) == target.y
     {
         Some((a * 3 + b) as usize)
     } else {
