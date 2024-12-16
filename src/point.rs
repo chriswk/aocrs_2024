@@ -4,6 +4,13 @@ use std::{
     ops::{Add, Mul, Sub},
 };
 
+pub enum Direction {
+    North,
+    East,
+    South,
+    West,
+}
+
 #[derive(Debug, Clone, Copy, PartialEq, PartialOrd, Ord, Eq, Hash)]
 pub struct Point {
     pub x: isize,
@@ -73,6 +80,15 @@ impl Point {
     ) -> std::iter::Successors<Point, impl FnMut(&Point) -> Option<Point>> {
         let delta = self.delta(other);
         successors(Some(self - &delta), move |d| Some(d - &delta))
+    }
+
+    pub fn navigate(&self, direction: Direction) -> Self {
+        match direction {
+            Direction::North => self + Point::new(0, -1),
+            Direction::East => self + Point::new(1, 0),
+            Direction::South => self + Point::new(0, 1),
+            Direction::West => self + Point::new(-1, 0),
+        }
     }
 
     pub fn positive_delta(
