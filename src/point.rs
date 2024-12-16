@@ -4,11 +4,23 @@ use std::{
     ops::{Add, Mul, Sub},
 };
 
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub enum Direction {
     North,
     East,
     South,
     West,
+}
+
+impl Direction {
+    pub fn no_uturn(&self) -> [Direction; 3] {
+        match self {
+            Direction::North => [Direction::North, Direction::East, Direction::West],
+            Direction::East => [Direction::East, Direction::North, Direction::South],
+            Direction::West => [Direction::West, Direction::North, Direction::South],
+            Direction::South => [Direction::South, Direction::West, Direction::East],
+        }
+    }
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, PartialOrd, Ord, Eq, Hash)]
@@ -82,7 +94,7 @@ impl Point {
         successors(Some(self - &delta), move |d| Some(d - &delta))
     }
 
-    pub fn navigate(&self, direction: Direction) -> Self {
+    pub fn navigate(&self, direction: &Direction) -> Self {
         match direction {
             Direction::North => self + Point::new(0, -1),
             Direction::East => self + Point::new(1, 0),
@@ -102,6 +114,14 @@ impl Point {
     pub fn antinode(&self, other: &Self) -> Point {
         let twice_distance = self.delta(other) * 2;
         self + twice_distance
+    }
+
+    pub fn index(&self, width: &usize) -> usize {
+        (self.y * *width as isize + self.x) as usize
+    }
+
+    pub fn inbounds(&self, width: &usize, height: &usize) -> bool {
+        self.x >= 0 && self.x < *width as isize && self.y >= 0 && self.y < *height as isize
     }
 
     pub fn cardinal_neighbours(&self) -> [Point; 4] {
