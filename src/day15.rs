@@ -10,24 +10,20 @@ pub fn parse(input: &str) -> (String, String) {
     (a.to_string(), insts.to_string())
 }
 
-const ROBOT: u8 = b'@';
-const WALL: u8 = b'#';
-const BOX: u8 = b'0';
-
-fn solve(mut g: Vec<Vec<u8>>, instructions: &str) -> usize {
-    let (mut row, mut column) = (0..g.len())
+fn solve(mut g: Vec<Vec<u8>>, insts: &str) -> usize {
+    let (mut r, mut c) = (0..g.len())
         .cartesian_product(0..g[0].len())
-        .find(|&(row, col)| g[row][col] == ROBOT)
+        .find(|&(r, c)| g[r][c] == b'@')
         .unwrap();
-    'outer: for i in instructions.bytes() {
+    'outer: for i in insts.bytes() {
         let (dr, dc) = match i {
-            b'^' => (-1 as i32, 0 as i32),
+            b'^' => (-1, 0),
             b'>' => (0, 1),
             b'v' => (1, 0),
             b'<' => (0, -1),
             _ => continue,
         };
-        let mut q = VecDeque::from([(row, column)]);
+        let mut q = VecDeque::from([(r, c)]);
         let mut seen = HashSet::default();
         while let Some((rr, cc)) = q.pop_front() {
             if !seen.insert((rr, cc)) {
@@ -35,8 +31,8 @@ fn solve(mut g: Vec<Vec<u8>>, instructions: &str) -> usize {
             }
             let (r2, c2) = (rr + dr as usize, cc + dc as usize);
             match g[r2][c2] {
-                WALL => continue 'outer,
-                BOX => q.push_back((r2, c2)),
+                b'#' => continue 'outer,
+                b'O' => q.push_back((r2, c2)),
                 b'[' => q.extend([(r2, c2), (r2, c2 + 1)]),
                 b']' => q.extend([(r2, c2), (r2, c2 - 1)]),
                 _ => continue,
@@ -44,14 +40,14 @@ fn solve(mut g: Vec<Vec<u8>>, instructions: &str) -> usize {
         }
         let boxes = seen
             .iter()
-            .sorted_by_key(|&&(rr, cc)| (column.abs_diff(cc), row.abs_diff(rr)))
+            .sorted_by_key(|&&(rr, cc)| (c.abs_diff(cc), r.abs_diff(rr)))
             .rev();
         for &(rr, cc) in boxes {
             let (r2, c2) = (rr + dr as usize, cc + dc as usize);
             g[r2][c2] = g[rr][cc];
             g[rr][cc] = b'.';
         }
-        (row, column) = (row + dr as usize, column + dc as usize);
+        (r, c) = (r + dr as usize, c + dc as usize);
     }
     (0..g.len())
         .cartesian_product(0..g[0].len())
