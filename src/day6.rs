@@ -85,9 +85,4 @@ mod tests {
 ........#.
 #.........
 ......#..."#;
-
-    #[test]
-    fn part2_example() {
-        assert_eq!(part2(&parse(EXAMPLE)), 0);
-    }
 }

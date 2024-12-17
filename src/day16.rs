@@ -69,7 +69,7 @@ fn solve(grid: &[u8], start: Point, width: &usize, height: &usize, part_1: bool)
 
         for dir in facing.no_uturn() {
             let new = location.navigate(&dir);
-            let nscore = if (facing == dir) {
+            let nscore = if facing == dir {
                 score + 1
             } else {
                 score + 1001
@@ -138,34 +138,4 @@ fn part2(input: &Input) -> usize {
     }
 
     solve(grid, start, width, height, false)
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    pub const MAZE: &str = r#"###############
-#.......#....E#
-#.#.###.#.###.#
-#.....#.#...#.#
-#.###.#####.#.#
-#.#.#.......#.#
-#.#.#####.###.#
-#...........#.#
-###.#.#####.#.#
-#...#.....#.#.#
-#.#.#.###.#.#.#
-#.....#...#.#.#
-#.###.#.#.#.#.#
-#S..#.....#...#
-###############"#;
-    #[test]
-    fn part1_example() {
-        assert_eq!(part1(&parse("<EXAMPLE>")), "<RESULT>");
-    }
-
-    #[test]
-    fn part2_example() {
-        assert_eq!(part2(&parse("<EXAMPLE>")), "<RESULT>");
-    }
 }
