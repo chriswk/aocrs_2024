@@ -4,6 +4,8 @@ use std::{
     ops::{Add, Mul, Sub},
 };
 
+use ahash::{HashMap, HashSet};
+
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub enum Direction {
     North,
@@ -138,5 +140,27 @@ impl Point {
             x: self.x.rem_euclid(width),
             y: self.y.rem_euclid(height),
         }
+    }
+
+    pub fn bounded_new_neighbours(&self, seen: &HashSet<Self>, end: &Point) -> Vec<Self> {
+        self.cardinal_neighbours()
+            .iter()
+            .filter(|p| !seen.contains(p))
+            .filter(|p| p.x >= 0 && p.y >= 0 && p.x <= end.x && p.y <= end.y)
+            .cloned()
+            .collect()
+    }
+
+    pub fn bounded_neighbours_from_hashmap(
+        &self,
+        seen: &HashMap<Point, usize>,
+        end: &Point,
+    ) -> Vec<Self> {
+        self.cardinal_neighbours()
+            .iter()
+            .filter(|p| !seen.contains_key(p))
+            .filter(|p| p.x >= 0 && p.y >= 0 && p.x <= end.x && p.y <= end.y)
+            .cloned()
+            .collect()
     }
 }
