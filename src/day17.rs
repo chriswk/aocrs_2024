@@ -118,7 +118,6 @@ fn parse(input: &str) -> Computer {
 #[aoc(day17, part1)]
 fn part1(input: &Computer) -> String {
     let mut cpu = input.clone();
-    println!("{cpu:?}");
     cpu.run_to_end();
     cpu.output.iter().join(",")
 }
