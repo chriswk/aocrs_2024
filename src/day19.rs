@@ -2,7 +2,7 @@ use ahash::{HashMap, HashSet};
 use aoc_runner_derive::{aoc, aoc_generator};
 
 pub struct Onsen {
-    pub towels: Vec<String>,
+    pub towels: HashSet<String>,
     pub displays: Vec<String>,
 }
 
@@ -17,7 +17,7 @@ fn parse(input: &str) -> Onsen {
 
 pub fn count_valid_patterns<'a>(
     pattern: &'a str,
-    stripes: &Vec<String>,
+    stripes: &HashSet<String>,
     already_computed: &mut HashMap<&'a str, usize>,
     max_length: usize,
 ) -> usize {
