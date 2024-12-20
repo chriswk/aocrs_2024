@@ -2,7 +2,6 @@ use std::iter::successors;
 
 use ahash::{HashMap, HashMapExt};
 use aoc_runner_derive::{aoc, aoc_generator};
-use itertools::Itertools;
 
 pub type Stones = HashMap<u64, usize>;
 

@@ -8,23 +8,23 @@ use crate::point::Point;
 pub type Grid = HashMap<Point, char>;
 
 #[aoc_generator(day12)]
-fn parse(input: &str) -> HashMap<Point, char> {
+fn parse(input: &str) -> Grid {
     let lines = input.lines();
     lines
         .enumerate()
         .flat_map(|(y, l)| {
-            l.trim().chars().enumerate().filter_map(move |(x, c)| {
+            l.trim().chars().enumerate().map(move |(x, c)| {
                 let point = Point {
                     x: x as isize,
                     y: y as isize,
                 };
-                Some((point, c))
+                (point, c)
             })
         })
         .collect::<HashMap<Point, char>>()
 }
 
-fn solve(grid: &HashMap<Point, char>, height: usize, width: usize) -> usize {
+fn solve(grid: &Grid, height: usize, width: usize) -> usize {
     let mut visited: HashSet<Point> = HashSet::default();
     let mut queue = VecDeque::with_capacity(32);
     let mut cost = 0;
@@ -63,7 +63,7 @@ fn solve(grid: &HashMap<Point, char>, height: usize, width: usize) -> usize {
     cost
 }
 
-fn get_number_of_corners(grid: &HashMap<Point, char>, point: Point) -> usize {
+fn get_number_of_corners(grid: &Grid, point: Point) -> usize {
     let mut number_of_corners = 0;
     let mut matches = [[false; 3]; 3];
     match grid.get(&point) {
@@ -116,7 +116,7 @@ fn get_number_of_corners(grid: &HashMap<Point, char>, point: Point) -> usize {
         None => 0,
     }
 }
-fn solve_part2(grid: &HashMap<Point, char>, height: usize, width: usize) -> usize {
+fn solve_part2(grid: &Grid, height: usize, width: usize) -> usize {
     let mut visited: HashSet<Point> = HashSet::default();
     let mut queue = VecDeque::with_capacity(32);
     let mut cost = 0;
@@ -151,13 +151,13 @@ fn solve_part2(grid: &HashMap<Point, char>, height: usize, width: usize) -> usiz
 }
 
 #[aoc(day12, part1)]
-fn part1(input: &HashMap<Point, char>) -> usize {
+fn part1(input: &Grid) -> usize {
     let biggest = input.iter().max().unwrap();
     solve(input, biggest.0.y as usize, biggest.0.x as usize)
 }
 
 #[aoc(day12, part2)]
-fn part2(input: &HashMap<Point, char>) -> usize {
+fn part2(input: &Grid) -> usize {
     let biggest = input.iter().max().unwrap();
     solve_part2(input, biggest.0.y as usize, biggest.0.x as usize)
 }

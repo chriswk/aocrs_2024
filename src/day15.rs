@@ -1,6 +1,6 @@
 use std::collections::VecDeque;
 
-use ahash::{HashMap, HashSet};
+use ahash::HashSet;
 use aoc_runner_derive::{aoc, aoc_generator};
 use itertools::Itertools;
 

@@ -25,7 +25,7 @@ impl Direction {
     }
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, PartialOrd, Ord, Eq, Hash)]
+#[derive(Debug, Clone, Copy, PartialEq, PartialOrd, Ord, Eq, Hash, Default)]
 pub struct Point {
     pub x: isize,
     pub y: isize,
@@ -86,6 +86,10 @@ impl Point {
     }
     pub fn delta(&self, other: &Self) -> Point {
         other - self
+    }
+
+    pub fn manhattan_distance(&self, other: &Point) -> usize {
+        self.x.abs_diff(other.x) + self.y.abs_diff(other.y)
     }
 
     pub fn negative_delta(
