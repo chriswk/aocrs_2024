@@ -67,18 +67,3 @@ fn part1(input: &Input) -> usize {
 fn part2(input: &Input) -> usize {
     solve(input.0.clone(), input.1, input.2, 20)
 }
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn part1_example() {
-        assert_eq!(part1(&parse("<EXAMPLE>")), "<RESULT>");
-    }
-
-    #[test]
-    fn part2_example() {
-        assert_eq!(part2(&parse("<EXAMPLE>")), "<RESULT>");
-    }
-}
