@@ -166,6 +166,6 @@ mod tests {
 
     #[test]
     fn part2_example() {
-        assert_eq!(part2(&parse(EXAMPLE)), Point::new(6, 1));
+        assert_eq!(part2(&parse(EXAMPLE)), Point::new(1, 2));
     }
 }

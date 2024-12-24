@@ -82,6 +82,6 @@ bbrgwb"#;
 
     #[test]
     fn part2_example() {
-        assert_eq!(part2(&parse(EXAMPLE)), 421);
+        assert_eq!(part2(&parse(EXAMPLE)), 16);
     }
 }

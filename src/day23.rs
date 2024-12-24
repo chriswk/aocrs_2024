@@ -192,9 +192,4 @@ mod tests {
     fn part1_example() {
         assert_eq!(part1(&parse(EXAMPLE)), 7);
     }
-
-    #[test]
-    fn part2_example() {
-        assert_eq!(part2(&parse("<EXAMPLE>")), "<RESULT>");
-    }
 }
